@@ -15,7 +15,25 @@
     <h1>ng-drum <small>(AngularJS Drum Machine)</small></h1>
 
     <div ng-controller="MainCtrl">
-      {{test}}
+      <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-default" ng-class="{heartbeat: 'active'}" ng-click="on()">
+          <input type="radio">Play
+        </label>
+        <label class="btn btn-default" ng-click="off()">
+          <input type="radio">Pause
+        </label>
+      </div>
+      <div class="btn-group">
+        <button type="button" class="btn btn-default" ng-click="tempo = tempo - 1">-</button>
+        <button type="button" class="btn btn-default">
+          <span ng-bind="tempo" ng-hide="editingTempo" ng-click="(editingTempo = true)"></span>
+          <form ng-submit="editingTempo = false" ng-show="editingTempo"><input ng-model="tempo" type="number"></form>
+        </button>
+        <button type="button" class="btn btn-default" ng-click="tempo = tempo + 1">+</button>
+      </div>
+      <span class="text-muted">
+        Count: <span ng-bind="seq.count"></span>
+      </span>
     </div>
   </div>
 </body>
