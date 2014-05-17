@@ -6,6 +6,7 @@ var StreamQueue = require('streamqueue');
 var coffee = require('gulp-coffee');
 var coffeelint = require('gulp-coffeelint');
 var gutil = require('gulp-util');
+var serve = require('gulp-serve');
 
 var fileLocations = {
   back: [
@@ -49,8 +50,15 @@ gulp.task('ng-concat', function() {
     .pipe(gulp.dest('./public/js'));
 });
 
+gulp.task('serve', serve({
+  root: ['public'],
+  port: 3786
+}));
+
+gulp.task('compile', ['front-lint', 'ng-concat', 'css']);
+
 // Default
-gulp.task('default', ['front-lint', 'ng-concat', 'css'], function() {
+gulp.task('default', ['compile', "serve"], function() {
   // Watch JS Files
   gulp.watch(fileLocations.front, ['front-lint', 'ng-concat']);
   gulp.watch(fileLocations.back, ['back-lint']);

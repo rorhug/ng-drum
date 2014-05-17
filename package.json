@@ -2,23 +2,22 @@
   "name": "ng-drum",
   "version": "0.0.1",
   "description": "AngularJS drum machine",
-  "scripts": {
-  },
-  "dependencies": {
-  },
+  "scripts": {},
+  "dependencies": {},
   "devDependencies": {
     "gulp": "3.x",
-    "gulp-util": "2.x",
-    "gulp-rename": "0.x",
-    "gulp-concat": "2.x",
-    "gulp-sass": "0.x",
-    "streamqueue": "0.x",
-    "ordered-read-streams": "0.x",
     "gulp-coffee": "1.x",
-    "gulp-coffeelint": "0.x"
+    "gulp-coffeelint": "0.x",
+    "gulp-concat": "2.x",
+    "gulp-rename": "0.x",
+    "gulp-sass": "0.x",
+    "gulp-serve": "0.x",
+    "gulp-util": "2.x",
+    "ordered-read-streams": "0.x",
+    "streamqueue": "0.x"
   },
   "repository": {
-    "type": "git", 
+    "type": "git",
     "url": "http://github.com/RoryDH/ng-drum"
   }
 }
