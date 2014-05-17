@@ -51,7 +51,7 @@ gulp.task('ng-concat', function() {
 });
 
 gulp.task('serve', serve({
-  root: ['public'],
+  root: ['./'],
   port: 3786
 }));
 
