@@ -3,6 +3,7 @@
 <head>
   <title>ng-drum</title>
   <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="/css/comp.css">
 
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
@@ -15,25 +16,75 @@
     <h1>ng-drum <small>(AngularJS Drum Machine)</small></h1>
 
     <div ng-controller="MainCtrl">
-      <div class="btn-group" data-toggle="buttons">
-        <label class="btn btn-default" ng-class="{heartbeat: 'active'}" ng-click="on()">
-          <input type="radio">Play
-        </label>
-        <label class="btn btn-default" ng-click="off()">
-          <input type="radio">Pause
-        </label>
-      </div>
-      <div class="btn-group">
-        <button type="button" class="btn btn-default" ng-click="tempo = tempo - 1">-</button>
-        <button type="button" class="btn btn-default">
-          <span ng-bind="tempo" ng-hide="editingTempo" ng-click="(editingTempo = true)"></span>
-          <form ng-submit="editingTempo = false" ng-show="editingTempo"><input ng-model="tempo" type="number"></form>
+      <div class="btn-toolbar" role="toolbar" ng-controller="PlayCtrl">
+        <button type="button" class="btn btn-default dropdown-toggle pull-left" data-toggle="dropdown" bs-dropdown data-template="instruments-list.html">
+          Add <span class="caret"></span>
         </button>
-        <button type="button" class="btn btn-default" ng-click="tempo = tempo + 1">+</button>
+        <script type="text/ng-template" id="instruments-list.html">
+          <ul class="dropdown-menu instruments-list" role="menu">
+            <li ng-repeat="(name, data) in instruments">
+              <a ng-click="addChannel(name)" ng-bind="name"></a>
+            </li>
+          </ul>
+        </script>
+
+        <div class="btn-group">
+          <button class="btn btn-success" ng-class="{active: heartbeat}" ng-click="on()">
+            <i class="fa fa-play"></i>
+          </button>
+          <button class="btn btn-danger" ng-click="off()">
+            <i class="fa fa-pause"></i>
+          </button>
+          <button class="btn btn-default" ng-click="reset()">
+            <i class="fa fa-stop"></i>
+          </button>
+        </div>
+        <form ng-submit="editingTempo = false" class="input-group tempo-controls">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="tempo = tempo - 1">
+              <i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-default" ng-hide="editingTempo">
+              <span ng-bind="tempo" ng-click="(editingTempo = true)"></span>
+            </button>
+          </span>
+          <input ng-model="tempo" type="number" class="form-control" focus-me="editingTempo" ng-show="editingTempo">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="tempo = tempo + 1">
+              <i class="fa fa-plus"></i>
+            </button>
+          </span>
+        </form>
+        <button type="button" class="btn btn-default play-info">
+          <span title="Total beats" ng-bind="seq.ticks + 1"></span>
+          <span title="Beat" ng-bind="seq.beat + 1"></span>
+          <span title="Current tick/semi-quaver" ng-bind="seq.semi + 1"></span>
+        </button>
       </div>
-      <span class="text-muted">
-        Count: <span ng-bind="seq.count"></span>
-      </span>
+
+      <div class="the-grid" ng-controller="GridCtrl">
+        <div class="row ch" ng-repeat="(inst, notes) in t.channels">
+          <div class="col-xs-2 ch-info">
+            <span ng-click="deleteChannel(inst)" class="text-danger">
+              <i class="fa fa-trash-o"></i>
+            </span>
+            <span ng-bind="inst" class="ch-title"></span>
+          </div>
+          <div class="col-xs-10 note-list">
+            <div class="beat" ng-repeat="b in [] | range:(t.beatCount)">
+              <span class="note"
+                    ng-repeat="sq in [] | range:4"
+                    ng-class="[noteClasses(inst, b, sq)]"
+                    ng-click="toggleNote(inst, b, sq)"
+              >
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h4 ng-show="isEmpty(t.channels)">
+        <i class="fa fa-hand-o-up"></i> Add a new channel!
+      </h4>
     </div>
   </div>
 </body>

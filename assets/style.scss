@@ -1,0 +1,92 @@
+.btn-toolbar {
+  .btn {
+    border-radius: 0px;
+    &:active, &:focus {
+      outline: none;
+    }
+  }
+  .tempo-controls {
+    .input-group-btn {
+      width: auto;
+    }
+    input {
+      max-width: 80px;
+    }
+  }
+  .play-info {
+    span {
+      min-width: 3em;
+      display: inline-block;
+    }
+  }
+  .instruments-list {
+    a {
+      cursor: pointer;
+    }
+  }
+}
+
+$l-out: #A5C6DF;
+$m-out: #3c6ad9;
+$l-back: #eef8fb;
+$m-back: #DDEEFB;
+$d-back: #c5e0fb;
+$dd-back: #b7d9f8;
+
+.the-grid {
+  margin-top: 10px;
+  .ch {
+    &:last-child .ch-info {
+      border-width: 1px 0px 1px 1px;
+      border-right: solid 1px $m-out;
+    }
+  }
+  .ch-info {
+    height: 40px;
+    border: solid $l-out;
+    border-width: 1px 0px 0px 1px;
+    border-right: solid 1px $m-out;
+    background-color: $m-back;
+    .ch-title {
+      font-weight: 300;
+      font-size: 18px;
+      height: 100%;
+      line-height: 36px;
+    }
+    .text-danger {
+      cursor: pointer;
+    }
+  }
+  .note-list {
+    padding: 0px;
+  }
+  .beat {
+    border: solid $l-out;
+    border-width: 1px 0 1px 0;
+    display: block;
+    float: left;
+  }
+  .note {
+    float: left;
+    height: 38px;
+    width: 40px;
+    display: inline-block;
+    cursor: crosshair;
+    border-right: solid 1px $l-out;
+    &.off {
+      background-color: $l-back;
+      &:hover {
+        background-color: $m-back;
+      }
+    }
+    &.on {
+      background-color: $d-back;
+      &:hover {
+        background-color: $dd-back;
+      }
+    }
+    &:nth-child(4n+4) {
+      border-right: solid 1px $m-out;
+    }
+  }
+}

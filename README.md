@@ -14,4 +14,4 @@ Angular drum machine
 `gulp`
 
 
-Then just open `localhost:` in your web browser.
+Then just open `localhost:3786` in your web browser.
