@@ -12,7 +12,7 @@
   <script type="text/javascript" src="/js/comp.js"></script>
 </head>
 <body>
-  <div class="container">
+  <div class="container-fluid">
     <h1>ng-drum <small>(AngularJS Drum Machine)</small></h1>
 
     <div ng-controller="MainCtrl">
@@ -44,8 +44,8 @@
             <button type="button" class="btn btn-default" ng-click="tempo = tempo - 1">
               <i class="fa fa-minus"></i>
             </button>
-            <button type="button" class="btn btn-default" ng-hide="editingTempo">
-              <span ng-bind="tempo" ng-click="(editingTempo = true)"></span>
+            <button type="button" class="btn btn-default" ng-hide="editingTempo" ng-click="(editingTempo = true)">
+              Tempo: <span ng-bind="tempo"></span>
             </button>
           </span>
           <input ng-model="tempo" type="number" class="form-control" focus-me="editingTempo" ng-show="editingTempo">
