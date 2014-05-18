@@ -49,9 +49,25 @@
               Tempo: <span ng-bind="t.tempo"></span>
             </button>
           </span>
-          <input ng-model="t.tempo" type="number" class="form-control" focus-me="editingTempo" ng-show="editingTempo">
+          <input ng-model="t.tempo" type="number" class="form-control" focus-me="editingTempo" ng-show="editingTempo" ng-blur="">
           <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="changeTempo(1)">
+              <i class="fa fa-plus"></i>
+            </button>
+          </span>
+        </form>
+        <form ng-submit="editingBeatCount = false || changeBeatCount()" class="input-group beat-controls">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="changeBeatCount(-1)">
+              <i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-default" ng-hide="editingBeatCount" ng-click="(editingBeatCount = true)">
+              Beats: <span ng-bind="t.beatCount"></span>
+            </button>
+          </span>
+          <input ng-model="t.beatCount" type="number" class="form-control" focus-me="editingBeatCount" ng-show="editingBeatCount" ng-blur="">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="changeBeatCount(1)">
               <i class="fa fa-plus"></i>
             </button>
           </span>
@@ -63,7 +79,7 @@
         </button>
         <button type="button" class="btn btn-info" title="Saves the song as a shareable link."
                 bs-popover data-template="permalink.html" ng-click="generateRawData()">
-          <i class="fa fa-link"></i> Get permalink
+          <i class="fa fa-link"></i> Save
         </button>
         <script type="text/ng-template" id="permalink.html">
           <div class="popover permalink">
@@ -96,6 +112,8 @@
       <h4 ng-show="isEmpty(t.channels)">
         <i class="fa fa-hand-o-up"></i> Add a new channel!
       </h4>
+      <pre ng-bind="t | json"></pre>
+
     </div>
 
     <footer class="text-muted">
@@ -104,6 +122,8 @@
       | <a href="https://github.com/RoryDH/ng-drum"><i class="fa fa-github"></i> Code</a>
       | <a href="https://twitter.com/RoryDHughes" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @RoryDHughes</a>
       <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+      <br>
+      <small>If something isn't working you probably need to upgrade to a more modern browser.</small>
     </footer>
   </div>
 </body>

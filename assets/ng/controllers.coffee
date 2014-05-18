@@ -21,7 +21,7 @@ drum.controller("MainCtrl", ($scope, $interval, $location, Sound, Track) ->
     $scope.seq.ticks = ticks
     s = ticks % ($scope.t.beatCount * 4)
     $scope.seq.semi = s
-    $scope.seq.beat = Math.floor($scope.seq.semi / 4) % 4
+    $scope.seq.beat = Math.floor($scope.seq.semi / 4)
 
     # Play sounds
     angular.forEach($scope.t.channels, (notes, inst) ->
@@ -30,6 +30,7 @@ drum.controller("MainCtrl", ($scope, $interval, $location, Sound, Track) ->
 
   lastDataGenerated = ""
   $scope.generateRawData = ->
+    $scope.t.cleanup()
     rawData = $scope.t.getPath()
     lastDataGenerated = rawData
   $scope.permalink = ->
@@ -62,19 +63,25 @@ drum.controller("PlayCtrl", ($scope, $interval) ->
     return if !$scope.instruments[inst] || $scope.t.channels[inst]
     $scope.t.channels[inst] = [0]
 
-  $scope.changeTempo = (amount) ->
-    if amount
-      $scope.t.tempo += amount
+  $scope.changeTempo = (diff) ->
+    if diff
+      $scope.t.tempo += diff
     $scope.t.tempo = 1 if $scope.t.tempo < 1
     $scope.t.tempo = 350 if $scope.t.tempo > 350
     if $scope.heartbeat
       $scope.off()
       $scope.on()
     no
+
+  $scope.changeBeatCount = (diff) ->
+    if diff
+      $scope.t.beatCount += diff
+    $scope.t.tempo = 1 if $scope.t.tempo < 1
+    $scope.t.tempo = 64 if $scope.t.tempo > 64
+    no
 )
 
 drum.controller("GridCtrl", ($scope) ->
-  $scope.noteAmount = -> $scope.t.beatCount * 4
   $scope.noteClasses = (chan, beat, tick) ->
     s = ""
     sq = (beat * 4) + tick

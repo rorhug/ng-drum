@@ -30,6 +30,18 @@ drum.factory("Track", (Storage) ->
       channels: that.channels
     )
 
+  Track.prototype.len = -> @beatCount * 4
+
+  Track.prototype.cleanup = ->
+    that = this
+    len = @len()
+    angular.forEach(@channels, (notes, inst) ->
+      # Remove notes longer than beat length
+      notes.splice(len)
+      # Set nulls to 0 to save on space in url
+      that.channels[inst] = ((if n then n else 0) for n in notes)
+    )
+
   Track
 )
 
