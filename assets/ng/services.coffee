@@ -67,7 +67,9 @@ drum.service("Keyboard", ->
   @funcs = {}
   @register = (keyCode, fn) ->
     @funcs[keyCode] = fn
-  @recieve = (e) ->
-    @funcs[e.keyCode] && @funcs[e.keyCode]()
+  @callFn = (e) ->
+    if @funcs[e.keyCode] && e.target.localName != "input"
+      e.preventDefault()
+      @funcs[e.keyCode]() 
   this
 )

@@ -41,8 +41,7 @@ drum.controller("MainCtrl", ($scope, $interval, $location, Sound, Track, Keyboar
     $location.absUrl()
 
   $scope.keyPressed = (e) ->
-    console.log(e.keyCode)
-    Keyboard.recieve(e)
+    Keyboard.callFn(e)
 
   # Random helpers
   $scope.isEmpty = (obj) ->
@@ -58,8 +57,7 @@ drum.controller("PlayCtrl", ($scope, $interval, Keyboard) ->
     $scope.seq.semi = -1
   Keyboard.register(115, $scope.reset)
 
-  $scope.toggle = ->
-    if $scope.heartbeat then $scope.off() else $scope.on()
+  $scope.toggle = -> if $scope.heartbeat then $scope.off() else $scope.on()
   Keyboard.register(32, $scope.toggle)
 
   $scope.on = ->
