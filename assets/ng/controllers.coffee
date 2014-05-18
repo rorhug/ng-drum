@@ -119,10 +119,16 @@ drum.controller("PlayCtrl", ($scope, $interval, Keyboard) ->
 
   $scope.changeBeatCount = (diff) ->
     if diff
-      $scope.t.beatCount += diff
-    $scope.t.beatCount = 1 if $scope.t.beatCount < 1
-    $scope.t.beatCount = 64 if $scope.t.beatCount > 64
-    no
+      n = $scope.t.beatCount
+      n += diff
+    else
+      n = $scope.beatCountBox
+    $scope.editingBeatCount = null
+    n = 1 if n < 1
+    n = 64 if n > 64
+    $scope.t.beatCount = n
+
+
   Keyboard.register(51, -> $scope.changeBeatCount(-1))
   Keyboard.register(52, -> $scope.changeBeatCount(1))
 
