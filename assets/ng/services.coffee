@@ -62,3 +62,12 @@ drum.service("Sound", ->
     )
   this
 )
+
+drum.service("Keyboard", ->
+  @funcs = {}
+  @register = (keyCode, fn) ->
+    @funcs[keyCode] = fn
+  @recieve = (e) ->
+    @funcs[e.keyCode] && @funcs[e.keyCode]()
+  this
+)

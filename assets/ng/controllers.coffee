@@ -2,7 +2,7 @@
 
 tempoMs = (t) -> ((60/t) * 1000)/4
 
-drum.controller("MainCtrl", ($scope, $interval, $location, Sound, Track) ->
+drum.controller("MainCtrl", ($scope, $interval, $location, Sound, Track, Keyboard) ->
   $scope.instruments = instruments
 
   # Track
@@ -29,7 +29,6 @@ drum.controller("MainCtrl", ($scope, $interval, $location, Sound, Track) ->
     )
 
   $scope.testPlay = (inst) ->
-    console.log(inst)
     Sound.play(inst)
 
   lastDataGenerated = ""
@@ -41,18 +40,27 @@ drum.controller("MainCtrl", ($scope, $interval, $location, Sound, Track) ->
     $location.path(lastDataGenerated)
     $location.absUrl()
 
+  $scope.keyPressed = (e) ->
+    console.log(e.keyCode)
+    Keyboard.recieve(e)
+
   # Random helpers
   $scope.isEmpty = (obj) ->
     !obj || angular.equals({}, obj)
 )
 
-drum.controller("PlayCtrl", ($scope, $interval) ->
+drum.controller("PlayCtrl", ($scope, $interval, Keyboard) ->
   $scope.heartbeat = null
   $scope.reset = ->
     $scope.off()
     $scope.seq.ticks = -1
     $scope.seq.beat = -1
     $scope.seq.semi = -1
+  Keyboard.register(115, $scope.reset)
+
+  $scope.toggle = ->
+    if $scope.heartbeat then $scope.off() else $scope.on()
+  Keyboard.register(32, $scope.toggle)
 
   $scope.on = ->
     return if $scope.heartbeat
@@ -76,6 +84,8 @@ drum.controller("PlayCtrl", ($scope, $interval) ->
       $scope.off()
       $scope.on()
     no
+  Keyboard.register(49, -> $scope.changeTempo(-1))
+  Keyboard.register(50, -> $scope.changeTempo(1))
 
   $scope.changeBeatCount = (diff) ->
     if diff
@@ -83,6 +93,8 @@ drum.controller("PlayCtrl", ($scope, $interval) ->
     $scope.t.tempo = 1 if $scope.t.tempo < 1
     $scope.t.tempo = 64 if $scope.t.tempo > 64
     no
+  Keyboard.register(51, -> $scope.changeBeatCount(-1))
+  Keyboard.register(52, -> $scope.changeBeatCount(1))
 )
 
 drum.controller("GridCtrl", ($scope) ->
