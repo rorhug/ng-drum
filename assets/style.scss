@@ -1,11 +1,23 @@
+a, button, .btn, .alert {
+  outline: none !important;
+}
+.point {
+  cursor: pointer;
+}
+.alert {
+  position: static;
+  padding: 4px 25px 4px 4px;
+  display: inline-block !important;
+}
 .btn-toolbar {
   .btn {
     border-radius: 0px;
-    &:active, &:focus {
-      outline: none;
-    }
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
   }
-  .tempo-controls {
+  .tempo-controls, .beat-controls {
     .input-group-btn {
       width: auto;
     }
@@ -22,36 +34,66 @@
   .instruments-list {
     a {
       cursor: pointer;
+      &.used {
+        cursor: default;
+        color: #c5c5c5;
+      }
+    }
+  }
+  .permalink {
+    textarea {
+      font-size: 10px;
+      padding: 2px;
+      height: 39px;
     }
   }
 }
 
-$l-out: #A5C6DF;
+$l-out: #b3d7f2;
 $m-out: #3c6ad9;
 $l-back: #eef8fb;
 $m-back: #DDEEFB;
 $d-back: #c5e0fb;
-$dd-back: #b7d9f8;
+$dd-back: #85cbf8;
 
 .the-grid {
-  margin-top: 10px;
+  margin: 10px 0;
   .ch {
-    &:last-child .ch-info {
-      border-width: 1px 0px 1px 1px;
-      border-right: solid 1px $m-out;
+    &:last-child {
+      .ch-info {
+        border-width: 1px 0px 1px 1px;
+        border-right: solid 1px $m-out;
+      }
+      .beat {
+        border-width: 1px 0 1px 0;
+        .note {
+          height: 28px;
+        }
+      }
+    }
+    &.cur {
+      .note-list {
+        // border-left: solid 1px $m-out;
+      }
+      .ch-title {
+        font-weight: 500;
+      }
+      .note.active {
+        border: 3px #1046c5 solid;
+      }
     }
   }
   .ch-info {
-    height: 40px;
+    height: 30px;
     border: solid $l-out;
     border-width: 1px 0px 0px 1px;
     border-right: solid 1px $m-out;
     background-color: $m-back;
     .ch-title {
       font-weight: 300;
-      font-size: 18px;
+      font-size: 14px;
       height: 100%;
-      line-height: 36px;
+      line-height: 26px;
     }
     .text-danger {
       cursor: pointer;
@@ -62,14 +104,14 @@ $dd-back: #b7d9f8;
   }
   .beat {
     border: solid $l-out;
-    border-width: 1px 0 1px 0;
+    border-width: 1px 0 0 0;
     display: block;
     float: left;
   }
   .note {
     float: left;
-    height: 38px;
-    width: 40px;
+    height: 29px;
+    width: 30px;
     display: inline-block;
     cursor: crosshair;
     border-right: solid 1px $l-out;
@@ -80,21 +122,23 @@ $dd-back: #b7d9f8;
       }
     }
     &.on {
-      background-color: $d-back;
+      background-color: $dd-back;
       &:hover {
-        background-color: $dd-back;
+        background-color: $d-back;
       }
     }
     &:nth-child(4n+4) {
       border-right: solid 1px $m-out;
     }
     &.active {
-      border: 5px rgb(70, 134, 255) solid;
+      border: 2px rgb(70, 134, 255) solid;
     }
   }
 }
 
 footer {
-  margin-top: 30px;
-  vertical-align: middle;
+  margin-bottom: 30px;
+  * {
+    vertical-align: middle;   
+  }
 }

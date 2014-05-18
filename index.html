@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html ng-app="drum">
 <head>
+  <meta charset="utf-8">
   <title>ng-drum</title>
+  <meta name="description" content="An AngularJS drum machine">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="/public/css/comp.css">
@@ -12,87 +16,163 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/howler/1.1.17/howler.min.js"></script>
   <script type="text/javascript" src="/public/js/comp.js"></script>
 </head>
-<body>
+<body ng-controller="MainCtrl" ng-keydown="keyPressed($event)">
   <div class="container-fluid">
     <h1>ng-drum <small>(AngularJS Drum Machine)</small></h1>
-
-    <div ng-controller="MainCtrl">
-      <div class="btn-toolbar" role="toolbar" ng-controller="PlayCtrl">
-        <button type="button" class="btn btn-default dropdown-toggle pull-left" data-toggle="dropdown" bs-dropdown data-template="instruments-list.html">
-          Add <span class="caret"></span>
+    <div id="alerts"></div>
+    <div class="btn-toolbar" role="toolbar" ng-controller="PlayCtrl">
+      <div class="btn-group">
+        <button class="btn play" ng-class="{'active btn-danger': heartbeat, 'btn-success': !heartbeat}" ng-click="toggle()">
+          <i class="fa fa-play" ng-hide="heartbeat"></i>
+          <i class="fa fa-pause" ng-show="heartbeat"></i>
         </button>
-        <script type="text/ng-template" id="instruments-list.html">
-          <ul class="dropdown-menu instruments-list" role="menu">
-            <li ng-repeat="(name, data) in instruments">
-              <a ng-click="addChannel(name)" ng-bind="name"></a>
-            </li>
-          </ul>
-        </script>
-
-        <div class="btn-group">
-          <button class="btn btn-success" ng-class="{active: heartbeat}" ng-click="on()">
-            <i class="fa fa-play"></i>
-          </button>
-          <button class="btn btn-danger" ng-click="off()">
-            <i class="fa fa-pause"></i>
-          </button>
-          <button class="btn btn-default" ng-click="reset()">
-            <i class="fa fa-stop"></i>
-          </button>
-        </div>
-        <form ng-submit="editingTempo = false" class="input-group tempo-controls">
-          <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="tempo = tempo - 1">
-              <i class="fa fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-default" ng-hide="editingTempo" ng-click="(editingTempo = true)">
-              Tempo: <span ng-bind="tempo"></span>
-            </button>
-          </span>
-          <input ng-model="tempo" type="number" class="form-control" focus-me="editingTempo" ng-show="editingTempo">
-          <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="tempo = tempo + 1">
-              <i class="fa fa-plus"></i>
-            </button>
-          </span>
-        </form>
-        <button type="button" class="btn btn-default play-info">
-          <span title="Total beats" ng-bind="seq.ticks + 1"></span>
-          <span title="Beat" ng-bind="seq.beat + 1"></span>
-          <span title="Current tick/semi-quaver" ng-bind="seq.semi + 1"></span>
+        <button class="btn btn-default btn-sm" ng-click="reset()">
+          <i class="fa fa-stop"></i>
         </button>
       </div>
-
-      <div class="the-grid" ng-controller="GridCtrl">
-        <div class="row ch" ng-repeat="(inst, notes) in t.channels">
-          <div class="col-xs-2 ch-info">
-            <span ng-click="deleteChannel(inst)" class="text-danger">
-              <i class="fa fa-trash-o"></i>
-            </span>
-            <span ng-bind="inst" class="ch-title"></span>
-          </div>
-          <div class="col-xs-10 note-list">
-            <div class="beat" ng-repeat="b in [] | range:(t.beatCount)">
-              <span class="note"
-                    ng-repeat="sq in [] | range:4"
-                    ng-class="[noteClasses(inst, b, sq)]"
-                    ng-click="toggleNote(inst, b, sq)"
-              >
-              </span>
-            </div>
-          </div>
-        </div>
+      <button type="button" class="btn btn-default dropdown-toggle pull-left" data-toggle="dropdown" bs-dropdown data-template="instruments-list.html">
+        <i class="fa fa-music"></i> Add <span class="caret"></span>
+      </button>
+      <script type="text/ng-template" id="instruments-list.html">
+        <ul class="dropdown-menu instruments-list" role="menu">
+          <li ng-repeat="name in instrumentNames" ng-mouseover="testPlay(name)">
+            <a ng-click="addChannel(name)" ng-bind="name" ng-class="{used: t.channels[name]}"></a>
+          </li>
+        </ul>
+      </script>
+      <form ng-submit="editingTempo = false || changeTempo()" class="input-group tempo-controls">
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="changeTempo(-1)">
+            <i class="fa fa-minus"></i>
+          </button>
+          <button type="button" class="btn btn-default" ng-hide="editingTempo" ng-click="(editingTempo = true)">
+            Tempo: <span ng-bind="t.tempo"></span>
+          </button>
+        </span>
+        <input ng-model="t.tempo" type="number" class="form-control" focus-me="editingTempo" ng-show="editingTempo" ng-blur="">
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="changeTempo(1)">
+            <i class="fa fa-plus"></i>
+          </button>
+        </span>
+      </form>
+      <form ng-submit="editingBeatCount = false || changeBeatCount()" class="input-group beat-controls">
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="changeBeatCount(-1)">
+            <i class="fa fa-minus"></i>
+          </button>
+          <button type="button" class="btn btn-default" ng-hide="editingBeatCount" ng-click="(editingBeatCount = true)">
+            Beats: <span ng-bind="t.beatCount"></span>
+          </button>
+        </span>
+        <input ng-model="t.beatCount" type="number" class="form-control" focus-me="editingBeatCount" ng-show="editingBeatCount" ng-blur="">
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="changeBeatCount(1)">
+            <i class="fa fa-plus"></i>
+          </button>
+        </span>
+      </form>
+      <div class="btn-group">
+        <button type="button" class="btn btn-default play-info" ng-click="retreat()">
+          <i class="fa fa-step-backward"></i>
+        </button>
+        <button type="button" class="btn btn-default play-info" ng-click="advance()">
+          <span bs-tooltip title="Total ticks/semi-quavers" ng-bind="seq.ticks + 1"></span>
+          <span bs-tooltip title="Beat" ng-bind="seq.beat + 1"></span>
+          <span bs-tooltip title="Current tick/semi-quaver" ng-bind="seq.semi + 1"></span>
+          <i class="fa fa-step-forward"></i>
+        </button>
       </div>
-      <h4 ng-show="isEmpty(t.channels)">
-        <i class="fa fa-hand-o-up"></i> Add a new channel!
-      </h4>
+      <button type="button" class="btn btn-info" title="Saves the song as a shareable link."
+              bs-popover data-template="permalink.html" ng-click="generateRawData()">
+        <i class="fa fa-link"></i> Save link to share
+      </button>
+      <script type="text/ng-template" id="permalink.html">
+        <div class="popover permalink">
+          <div class="arrow"></div>
+          <button class="btn btn-link btn-block btn-xs" ng-click="$hide()">close</button>
+          <textarea class="form-control" ng-bind="permalink()" select-all-on-click></textarea>
+        </div>
+      </script>
     </div>
 
-    <footer class="text-center text-muted">
-      Created by Rory Hughes | Inspired by <a href="http://emberbeats.gavinjoyce.com/">Ember Beats</a> | 
-      <a href="https://twitter.com/RoryDHughes" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @RoryDHughes</a>
+    <div class="the-grid" ng-controller="GridCtrl">
+      <div class="row ch" ng-repeat="inst in chList()" ng-class="{cur: inst == curCh.name}">
+        <div class="col-sm-2 col-lg-1 ch-info point" ng-click="testPlay(inst)">
+          <span ng-click="deleteChannel(inst)" class="text-danger">
+            <i class="fa fa-trash-o"></i>
+          </span>
+          <span ng-bind="inst" class="ch-title"></span>
+        </div>
+        <div class="col-sm-10 col-lg-11 note-list">
+          <div class="beat" ng-repeat="b in [] | range:(t.beatCount)">
+            <span class="note"
+                  ng-repeat="sq in [] | range:4"
+                  ng-class="[noteClasses(inst, b, sq)]"
+                  ng-click="toggleNote(inst, (b * 4) + sq)">
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h4 ng-show="isEmpty(t.channels)">
+      <i class="fa fa-hand-o-up"></i> Add a new channel!
+    </h4>
+    <button class="btn btn-link btn-sm" ng-click="showDebug = !showDebug">show debug json</button>
+    <pre ng-if="showDebug" ng-bind="t | trackJson"></pre>
+
+    <section>
+      <h4>What is this?</h4>
+      <p>
+        It's a web based <a target="_blank" href="https://en.wikipedia.org/wiki/Drum_machine">Drum Machine</a> built using the <a target="_blank" href="http://angularjs.org/">AngularJS</a> JavaScript framework.
+      </p>
+      <h4>I don't understand... how do I use it?</h4>
+      <p>
+        Hit the play button on the top left.<br>
+        See the boxes moving across the grid?<br>
+        When they cover a dark blue square, it plays that sound for that row (written on the left side).<br>
+        You can edit the rhythm by clicking the squares and adding more drums by pressing 'Add'<br>
+        'Tempo' changes the speed. 'Beats' is the length.<br>
+        If you want to share you creation, hit the blue share button.
+        That will change the current web address and give you it so you can send it to others.
+      </p>
+      <h4>Something isn't working...</h4>
+      <p>
+        It's possible your browser is too old. If you know you're using a modern browser, try emailing me: rory@rory.ie
+      </p>
+      <h4>Key Bindings <i class="fa fa-keyboard-o"></i></h4>
+      <p>
+        <strong>space:</strong> Play/Pause<br>
+        <strong>s:</strong> Stop+Rewind<br>
+        <strong>1:</strong> <i class="fa fa-minus"></i> tempo<br>
+        <strong>2:</strong> <i class="fa fa-plus"></i> tempo<br>
+        <strong>3:</strong> <i class="fa fa-minus"></i> beats<br>
+        <strong>4:</strong> <i class="fa fa-plus"></i> beats<br>
+        <strong>p:</strong> Play current selection<br>
+        <strong>i:</strong> Insert/remove current note<br>
+        <strong><i class="fa fa-arrow-left"></i>/h:</strong> Back one<br>
+        <strong><i class="fa fa-arrow-right"></i>/l:</strong> Forward one<br>
+        <strong><i class="fa fa-arrow-up"></i>/k:</strong> Up channel<br>
+        <strong><i class="fa fa-arrow-down"></i>/j:</strong> Down channel
+      </p>
+    </section>
+
+    <footer class="text-muted">
+      Created by Rory Hughes
+      | Inspired by <a target="_blank" href="http://emberbeats.gavinjoyce.com/">Ember Beats</a>
+      | <a target="_blank" href="https://github.com/RoryDH/ng-drum"><i class="fa fa-github"></i> Code</a>
+      | <a href="https://twitter.com/RoryDHughes" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @RoryDHughes</a>
       <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
     </footer>
   </div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-38398315-8', 'rory.ie');
+ga('send', 'pageview');
+</script>
 </body>
 </html>

@@ -8,3 +8,9 @@ drum.directive "focusMe", ($timeout, $parse) ->
     
     element.bind "blur", ->
       scope.$apply model.assign(scope, false)
+
+drum.directive "selectAllOnClick", ($timeout) ->
+  link: (scope, element, attrs) ->
+    $timeout ->
+      element[0].focus()
+      element[0].select()
