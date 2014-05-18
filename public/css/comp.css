@@ -62,3 +62,9 @@
         background-color: #b7d9f8; }
     .the-grid .note:nth-child(4n+4) {
       border-right: solid 1px #3c6ad9; }
+    .the-grid .note.active {
+      border: 5px #4686ff solid; }
+
+footer {
+  margin-top: 30px;
+  vertical-align: middle; }

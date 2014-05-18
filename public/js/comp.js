@@ -1,4 +1,4 @@
-var drum;
+var drum, instruments;
 
 drum = angular.module('drum', ["mgcrea.ngStrap"]);
 
@@ -14,7 +14,28 @@ drum.filter('range', function() {
   };
 });
 
+instruments = {
+  kick: [0, 89],
+  snare: [109, 197],
+  snare2: [358, 183],
+  tom: [554, 496],
+  hatOpen: [1054, 238],
+  hatClosed: [1328, 107],
+  tamb: [1457, 139],
+  ride: [1616, 457]
+};
 
+drum.service("Sound", function() {
+  var h;
+  h = new Howl({
+    urls: ['public/kit.mp3', 'public/kit.ogg'],
+    sprite: instruments
+  });
+  this.play = function(name) {
+    return h.play(name);
+  };
+  return this;
+});
 
 var tempoMs;
 
@@ -22,15 +43,8 @@ tempoMs = function(t) {
   return ((60 / t) * 1000) / 4;
 };
 
-drum.controller("MainCtrl", function($scope, $interval) {
-  $scope.instruments = {
-    kick: {
-      file: "blah"
-    },
-    snare: {
-      file: "blah"
-    }
-  };
+drum.controller("MainCtrl", function($scope, $interval, Sound) {
+  $scope.instruments = instruments;
   $scope.t = {
     beatCount: 4,
     channels: {
@@ -47,11 +61,17 @@ drum.controller("MainCtrl", function($scope, $interval) {
   };
   $scope.tempo = 120;
   $scope.advance = function() {
-    var ticks;
+    var s, ticks;
     ticks = $scope.seq.ticks + 1;
     $scope.seq.ticks = ticks;
-    $scope.seq.semi = ticks % ($scope.t.beatCount * 4);
-    return $scope.seq.beat = Math.floor($scope.seq.semi / 4) % 4;
+    s = ticks % ($scope.t.beatCount * 4);
+    $scope.seq.semi = s;
+    $scope.seq.beat = Math.floor($scope.seq.semi / 4) % 4;
+    return angular.forEach($scope.t.channels, function(notes, inst) {
+      if (notes[s]) {
+        return Sound.play(inst);
+      }
+    });
   };
   return $scope.isEmpty = function(obj) {
     return angular.equals({}, obj);
@@ -96,14 +116,16 @@ drum.controller("GridCtrl", function($scope) {
     s = "";
     sq = (beat * 4) + tick;
     s += $scope.t.channels[chan][sq] ? "on" : "off";
+    if (sq === $scope.seq.semi) {
+      s += " active";
+    }
     return s;
   };
   return $scope.toggleNote = function(chan, beat, tick) {
     var a, sq;
     sq = (beat * 4) + tick;
     a = $scope.t.channels[chan];
-    a[sq] = a[sq] === 1 ? 0 : 1;
-    return console.log($scope.t.channels[chan]);
+    return a[sq] = a[sq] === 1 ? 0 : 1;
   };
 });
 
