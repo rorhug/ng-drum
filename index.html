@@ -21,17 +21,6 @@
     <h1>ng-drum <small>(AngularJS Drum Machine)</small></h1>
     <div id="alerts"></div>
     <div class="btn-toolbar" role="toolbar" ng-controller="PlayCtrl">
-      <button type="button" class="btn btn-default dropdown-toggle pull-left" data-toggle="dropdown" bs-dropdown data-template="instruments-list.html">
-        Add <span class="caret"></span>
-      </button>
-      <script type="text/ng-template" id="instruments-list.html">
-        <ul class="dropdown-menu instruments-list" role="menu">
-          <li ng-repeat="name in instrumentNames" ng-mouseover="testPlay(name)">
-            <a ng-click="addChannel(name)" ng-bind="name" ng-class="{used: t.channels[name]}"></a>
-          </li>
-        </ul>
-      </script>
-
       <div class="btn-group">
         <button class="btn play" ng-class="{'active btn-danger': heartbeat, 'btn-success': !heartbeat}" ng-click="toggle()">
           <i class="fa fa-play" ng-hide="heartbeat"></i>
@@ -41,6 +30,16 @@
           <i class="fa fa-stop"></i>
         </button>
       </div>
+      <button type="button" class="btn btn-default dropdown-toggle pull-left" data-toggle="dropdown" bs-dropdown data-template="instruments-list.html">
+        <i class="fa fa-music"></i> Add <span class="caret"></span>
+      </button>
+      <script type="text/ng-template" id="instruments-list.html">
+        <ul class="dropdown-menu instruments-list" role="menu">
+          <li ng-repeat="name in instrumentNames" ng-mouseover="testPlay(name)">
+            <a ng-click="addChannel(name)" ng-bind="name" ng-class="{used: t.channels[name]}"></a>
+          </li>
+        </ul>
+      </script>
       <form ng-submit="editingTempo = false || changeTempo()" class="input-group tempo-controls">
         <span class="input-group-btn">
           <button type="button" class="btn btn-default" ng-click="changeTempo(-1)">
@@ -122,6 +121,42 @@
     </h4>
     <button class="btn btn-link btn-sm" ng-click="showDebug = !showDebug">show debug json</button>
     <pre ng-if="showDebug" ng-bind="t | trackJson"></pre>
+
+    <section>
+      <h4>What is this?</h4>
+      <p>
+        It's a web based <a href="https://en.wikipedia.org/wiki/Drum_machine">Drum Machine</a> built using the <a href="http://angularjs.org/">AngularJS</a> JavaScript framework.
+      </p>
+      <h4>I don't understand... how do I use it?</h4>
+      <p>
+        Hit the play button on the top left.
+        <br>
+        See the boxes moving across the grid?
+        <br>
+        When they cover a dark blue square, it plays that sound for that row (written on the left side).
+        <br>
+        You can edit the rhythm by clicking the squares and adding more drums by pressing 'Add'
+        <br>
+        'Tempo' changes the speed. 'Beats' is the length.
+        <br>
+        If you think you have something good and want to share, hit the blue share button. That will change the current web address and give you it so you can send it with others.
+      </p>
+    </section>
+
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'roryhughes';
+        var disqus_identifier = 'ng-drum';
+        var disqus_url = 'http://drum.rory.ie/';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
 
     <footer class="text-muted">
       Created by Rory Hughes
