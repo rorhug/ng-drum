@@ -44,7 +44,7 @@ drum.controller("MainCtrl", ($scope, $interval, $location, $alert, Sound, Track,
     $scope.seq.ticks += 1
     recalculate()
     strike()
-  retreat = ->
+  $scope.retreat = ->
     if $scope.seq.ticks <= 0
       $scope.seq.ticks = $scope.t.len()
     $scope.seq.ticks -= 1
@@ -52,8 +52,8 @@ drum.controller("MainCtrl", ($scope, $interval, $location, $alert, Sound, Track,
     strike()
   Keyboard.register(39, $scope.advance) # right arrow
   Keyboard.register(76, $scope.advance) # l
-  Keyboard.register(37, retreat) # left arrow
-  Keyboard.register(72, retreat) # h
+  Keyboard.register(37, $scope.retreat) # left arrow
+  Keyboard.register(72, $scope.retreat) # h
   recalculate = ->
     $scope.seq.semi = $scope.seq.ticks % ($scope.t.beatCount * 4)
     $scope.seq.beat = Math.floor($scope.seq.semi / 4)

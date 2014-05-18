@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html ng-app="drum">
 <head>
+  <meta charset="utf-8">
   <title>ng-drum</title>
+  <meta name="description" content="An AngularJS drum machine">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="/public/css/comp.css">
@@ -33,7 +37,7 @@
           <i class="fa fa-play" ng-hide="heartbeat"></i>
           <i class="fa fa-pause" ng-show="heartbeat"></i>
         </button>
-        <button class="btn btn-default" ng-click="reset()">
+        <button class="btn btn-default btn-sm" ng-click="reset()">
           <i class="fa fa-stop"></i>
         </button>
       </div>
@@ -69,11 +73,17 @@
           </button>
         </span>
       </form>
-      <button type="button" class="btn btn-default play-info">
-        <span title="Total ticks/semi-quavers" ng-bind="seq.ticks + 1"></span>
-        <span title="Beat" ng-bind="seq.beat + 1"></span>
-        <span title="Current tick/semi-quaver" ng-bind="seq.semi + 1"></span>
-      </button>
+      <div class="btn-group">
+        <button type="button" class="btn btn-default play-info" ng-click="retreat()">
+          <i class="fa fa-step-backward"></i>
+        </button>
+        <button type="button" class="btn btn-default play-info" ng-click="advance()">
+          <span bs-tooltip title="Total ticks/semi-quavers" ng-bind="seq.ticks + 1"></span>
+          <span bs-tooltip title="Beat" ng-bind="seq.beat + 1"></span>
+          <span bs-tooltip title="Current tick/semi-quaver" ng-bind="seq.semi + 1"></span>
+          <i class="fa fa-step-forward"></i>
+        </button>
+      </div>
       <button type="button" class="btn btn-info" title="Saves the song as a shareable link."
               bs-popover data-template="permalink.html" ng-click="generateRawData()">
         <i class="fa fa-link"></i> Save link to share
@@ -120,7 +130,7 @@
       | <a href="https://twitter.com/RoryDHughes" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @RoryDHughes</a>
       <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
       <br>
-      <small>If something isn't working you probably need to upgrade to a more modern browser.</small>
+      If something isn't working you probably need to upgrade to a more modern browser.
     </footer>
   </div>
 </body>
