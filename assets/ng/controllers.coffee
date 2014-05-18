@@ -131,9 +131,13 @@ drum.controller("GridCtrl", ($scope, Keyboard) ->
     num: -1
     name: ""
   moveChannel = (diff) ->
+    chList = $scope.chList()
     newNum = $scope.curCh.num + diff
-    newName = $scope.chList()[newNum]
-    return unless (newName)
+    if (newNum >= chList.length)
+      newNum = 0
+    else if (newNum <= -1)
+      newNum = chList.length - 1
+    newName = chList[newNum]
     if $scope.seq.semi == -1
       $scope.seq.semi = 0
       $scope.seq.beat = 0

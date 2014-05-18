@@ -20,8 +20,7 @@ drum.factory("Track", (Storage) ->
     # Default
     @tempo ?= 120
     @beatCount ?= 4
-    @channels ?=
-      snare: [1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0]
+    @channels ?= {"snare":[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],"kick":[1,0,0,0,0,0,0,1,0,1,1,0,0,0,1],"hatClosed":[1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0],"hatOpen":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0]}
     this
 
   Track.prototype.getPath = ->
