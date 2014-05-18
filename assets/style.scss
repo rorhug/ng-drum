@@ -88,5 +88,13 @@ $dd-back: #b7d9f8;
     &:nth-child(4n+4) {
       border-right: solid 1px $m-out;
     }
+    &.active {
+      border: 5px rgb(70, 134, 255) solid;
+    }
   }
+}
+
+footer {
+  margin-top: 30px;
+  vertical-align: middle;
 }

@@ -7,6 +7,7 @@ var coffee = require('gulp-coffee');
 var coffeelint = require('gulp-coffeelint');
 var gutil = require('gulp-util');
 var serve = require('gulp-serve');
+var fs = require('fs');
 
 var fileLocations = {
   back: [
@@ -51,8 +52,16 @@ gulp.task('ng-concat', function() {
 });
 
 gulp.task('serve', serve({
-  root: ['./'],
-  port: 3786
+  root: ['.'],
+  port: 3786,
+  middleware: function(req, res, next) {
+    console.log(req.url);
+    if(!(req.url.split("/")[1] == "public")) {
+      return next();
+    }
+    var data = fs.readFileSync('.' + req.url);
+    res.end(data);
+  }
 }));
 
 gulp.task('compile', ['front-lint', 'ng-concat', 'css']);

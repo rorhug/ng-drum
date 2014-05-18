@@ -1,7 +1,10 @@
 ng-drum
 =======
 
-Angular drum machine
+AngularJS drum machine
+----------------------
+
+An Angular take to [Ember Beats](https://github.com/GavinJoyce/ember-beats).
 
 ### Setup
 
