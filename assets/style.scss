@@ -1,9 +1,9 @@
+a, button, .btn {
+  outline: none !important;
+}
 .btn-toolbar {
   .btn {
     border-radius: 0px;
-    &:active, &:focus {
-      outline: none;
-    }
     margin-bottom: 5px;
   }
   .tempo-controls, .beat-controls {

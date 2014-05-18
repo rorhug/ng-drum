@@ -9,6 +9,12 @@ drum.filter('range', ->
     [0..range]
 )
 
+drum.filter('trackJson', ->
+  (object) ->
+    return '' unless object
+    JSON.stringify(object)
+)
+
 instruments =
   kick: [0, 280]
   snare: [350, 250]

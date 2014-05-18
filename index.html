@@ -113,8 +113,8 @@
       <h4 ng-show="isEmpty(t.channels)">
         <i class="fa fa-hand-o-up"></i> Add a new channel!
       </h4>
-      <pre ng-bind="t | json"></pre>
-
+      <button class="btn btn-link btn-sm" ng-click="showDebug = !showDebug">show debug json</button>
+      <pre ng-if="showDebug" ng-bind="t | trackJson"></pre>
     </div>
 
     <footer class="text-muted">
