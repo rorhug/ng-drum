@@ -40,9 +40,9 @@
             <i class="fa fa-stop"></i>
           </button>
         </div>
-        <form ng-submit="editingTempo = false" class="input-group tempo-controls">
+        <form ng-submit="editingTempo = false || changeTempo()" class="input-group tempo-controls">
           <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="t.tempo = t.tempo - 1">
+            <button type="button" class="btn btn-default" ng-click="changeTempo(-1)">
               <i class="fa fa-minus"></i>
             </button>
             <button type="button" class="btn btn-default" ng-hide="editingTempo" ng-click="(editingTempo = true)">
@@ -51,13 +51,13 @@
           </span>
           <input ng-model="t.tempo" type="number" class="form-control" focus-me="editingTempo" ng-show="editingTempo">
           <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="t.tempo = t.tempo + 1">
+            <button type="button" class="btn btn-default" ng-click="changeTempo(1)">
               <i class="fa fa-plus"></i>
             </button>
           </span>
         </form>
         <button type="button" class="btn btn-default play-info">
-          <span title="Total beats" ng-bind="seq.ticks + 1"></span>
+          <span title="Total ticks/semi-quavers" ng-bind="seq.ticks + 1"></span>
           <span title="Beat" ng-bind="seq.beat + 1"></span>
           <span title="Current tick/semi-quaver" ng-bind="seq.semi + 1"></span>
         </button>

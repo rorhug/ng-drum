@@ -61,6 +61,13 @@ drum.controller("PlayCtrl", ($scope, $interval) ->
   $scope.addChannel = (inst) ->
     return if !$scope.instruments[inst] || $scope.t.channels[inst]
     $scope.t.channels[inst] = [0]
+
+  $scope.changeTempo = (amount) ->
+    if amount
+      $scope.t.tempo += amount
+    $scope.t.tempo = 1 if $scope.t.tempo < 1
+    $scope.t.tempo = 350 if $scope.t.tempo > 350
+    no
 )
 
 drum.controller("GridCtrl", ($scope) ->
