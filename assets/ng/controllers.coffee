@@ -9,33 +9,46 @@ drum.controller("MainCtrl", ($scope, $interval, $location, $alert, Sound, Track,
   trackRawData = $location.path().split("/")[1]
   $scope.t = new Track(trackRawData)
   if $scope.t.invalidRawData
+    $location.path("")
     $alert(
       title: 'Error'
       content: 'The track data in the url was invalid!'
       placement: 'top-right'
       container: '#alerts'
       type: 'danger'
-      # duration: 8
+      duration: 8
     )
 
   $scope.deleteChannel = (inst) ->
     delete $scope.t.channels[inst]
 
+  strike = ->
+    # Play sounds
+    angular.forEach($scope.t.channels, (notes, inst) ->
+      Sound.play(inst) if notes[$scope.seq.semi]
+    )
+  Keyboard.register(83, strike)
   $scope.seq =
     ticks: -1
     beat: -1
     semi: -1
   $scope.advance = ->
-    ticks = $scope.seq.ticks + 1
-    $scope.seq.ticks = ticks
-    s = ticks % ($scope.t.beatCount * 4)
-    $scope.seq.semi = s
-    $scope.seq.beat = Math.floor($scope.seq.semi / 4)
+    $scope.seq.ticks += 1
+    recalculate()
+    strike()
+  retreat = ->
+    return if $scope.seq.ticks <= 0
+    $scope.seq.ticks -= 1
+    recalculate()
+    strike()
+  Keyboard.register(39, $scope.advance) # right arrow
+  Keyboard.register(76, $scope.advance) # l
+  Keyboard.register(37, retreat) # left arrow
+  Keyboard.register(72, retreat) # h
 
-    # Play sounds
-    angular.forEach($scope.t.channels, (notes, inst) ->
-      Sound.play(inst) if notes[s]
-    )
+  recalculate = ->
+    $scope.seq.semi = $scope.seq.ticks % ($scope.t.beatCount * 4)
+    $scope.seq.beat = Math.floor($scope.seq.semi / 4)
 
   $scope.testPlay = (inst) ->
     Sound.play(inst)
