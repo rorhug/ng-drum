@@ -3,10 +3,15 @@ drum.service("Sound", ->
     urls: ['public/kit.mp3', 'public/kit.ogg']
     sprite: instruments
   )
-  # @play = h.play
+  that = this
+  @lastOpenHat = null
   @play = (name) ->
-    h.play(name)
-  # console.log name
-  # h.stop("hatOpen") if name == "hatClosed"
+    h.play(name, (id) ->
+      if name == "hatOpen" # HiHat stop
+        that.lastOpenHat = id
+      else if name == "hatClosed" && that.lastOpenHat 
+        h.stop(that.lastOpenHat)
+        that.lastOpenHat = null
+    )
   this
 )

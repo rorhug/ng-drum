@@ -96,5 +96,7 @@ $dd-back: #b7d9f8;
 
 footer {
   margin-top: 30px;
-  vertical-align: middle;
+  * {
+    vertical-align: middle;   
+  }
 }
