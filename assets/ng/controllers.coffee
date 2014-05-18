@@ -65,7 +65,9 @@ drum.controller("MainCtrl", ($scope, $interval, $location, $alert, Sound, Track,
   $scope.generateRawData = ->
     $scope.t.cleanup()
     rawData = $scope.t.getPath()
+    return if rawData == lastDataGenerated
     lastDataGenerated = rawData
+    ga('send', 'event', 'permalink', 'generate')
   $scope.permalink = ->
     $location.path(lastDataGenerated)
     $location.absUrl()
