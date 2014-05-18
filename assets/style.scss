@@ -1,8 +1,13 @@
-a, button, .btn {
+a, button, .btn, .alert {
   outline: none !important;
 }
 .point {
   cursor: pointer;
+}
+.alert {
+  position: static;
+  padding: 4px 25px 4px 4px;
+  display: inline-block !important;
 }
 .btn-toolbar {
   .btn {

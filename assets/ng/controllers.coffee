@@ -2,12 +2,21 @@
 
 tempoMs = (t) -> ((60/t) * 1000)/4
 
-drum.controller("MainCtrl", ($scope, $interval, $location, Sound, Track, Keyboard) ->
+drum.controller("MainCtrl", ($scope, $interval, $location, $alert, Sound, Track, Keyboard) ->
   $scope.instruments = instruments
 
   # Track
   trackRawData = $location.path().split("/")[1]
   $scope.t = new Track(trackRawData)
+  if $scope.t.invalidRawData
+    $alert(
+      title: 'Error'
+      content: 'The track data in the url was invalid!'
+      placement: 'top-right'
+      container: '#alerts'
+      type: 'danger'
+      # duration: 8
+    )
 
   $scope.deleteChannel = (inst) ->
     delete $scope.t.channels[inst]
@@ -59,6 +68,7 @@ drum.controller("PlayCtrl", ($scope, $interval, Keyboard) ->
 
   $scope.toggle = -> if $scope.heartbeat then $scope.off() else $scope.on()
   Keyboard.register(32, $scope.toggle)
+  Keyboard.register(80, $scope.toggle)
 
   $scope.on = ->
     return if $scope.heartbeat

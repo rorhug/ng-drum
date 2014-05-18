@@ -11,7 +11,9 @@ drum.service("Storage", ->
 drum.factory("Track", (Storage) ->
   Track = (encoded) ->
     trackObj = Storage.decode(encoded) if encoded
-    if trackObj
+    if trackObj is null
+      @invalidRawData = true
+    else if trackObj
       @tempo = trackObj.tempo
       @beatCount = trackObj.beatCount
       @channels = trackObj.channels
@@ -70,6 +72,6 @@ drum.service("Keyboard", ->
   @callFn = (e) ->
     if @funcs[e.keyCode] && e.target.localName != "input"
       e.preventDefault()
-      @funcs[e.keyCode]() 
+      @funcs[e.keyCode]()
   this
 )
