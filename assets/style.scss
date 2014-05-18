@@ -41,23 +41,43 @@ a, button, .btn, .alert {
     textarea {
       font-size: 10px;
       padding: 2px;
+      height: 39px;
     }
   }
 }
 
-$l-out: #A5C6DF;
+$l-out: #b3d7f2;
 $m-out: #3c6ad9;
 $l-back: #eef8fb;
 $m-back: #DDEEFB;
 $d-back: #c5e0fb;
-$dd-back: #b7d9f8;
+$dd-back: #85cbf8;
 
 .the-grid {
   margin: 10px 0;
   .ch {
-    &:last-child .ch-info {
-      border-width: 1px 0px 1px 1px;
-      border-right: solid 1px $m-out;
+    &:last-child {
+      .ch-info {
+        border-width: 1px 0px 1px 1px;
+        border-right: solid 1px $m-out;
+      }
+      .beat {
+        border-width: 1px 0 1px 0;
+        .note {
+          height: 28px;
+        }
+      }
+    }
+    &.cur {
+      .note-list {
+        // border-left: solid 1px $m-out;
+      }
+      .ch-title {
+        font-weight: 500;
+      }
+      .note.active {
+        border: 3px #1046c5 solid;
+      }
     }
   }
   .ch-info {
@@ -81,13 +101,13 @@ $dd-back: #b7d9f8;
   }
   .beat {
     border: solid $l-out;
-    border-width: 1px 0 1px 0;
+    border-width: 1px 0 0 0;
     display: block;
     float: left;
   }
   .note {
     float: left;
-    height: 28px;
+    height: 29px;
     width: 30px;
     display: inline-block;
     cursor: crosshair;
@@ -99,9 +119,9 @@ $dd-back: #b7d9f8;
       }
     }
     &.on {
-      background-color: $d-back;
+      background-color: $dd-back;
       &:hover {
-        background-color: $dd-back;
+        background-color: $d-back;
       }
     }
     &:nth-child(4n+4) {

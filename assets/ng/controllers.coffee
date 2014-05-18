@@ -4,6 +4,7 @@ tempoMs = (t) -> ((60/t) * 1000)/4
 
 drum.controller("MainCtrl", ($scope, $interval, $location, $alert, Sound, Track, Keyboard) ->
   $scope.instruments = instruments
+  $scope.instrumentNames = instrumentNames
 
   # Track
   trackRawData = $location.path().split("/")[1]
@@ -19,6 +20,13 @@ drum.controller("MainCtrl", ($scope, $interval, $location, $alert, Sound, Track,
       duration: 8
     )
 
+  $scope.chList = ->
+    list = []
+    unordered = Object.keys($scope.t.channels)
+    instrumentNames.forEach((i) ->
+      list.push(i) unless unordered.indexOf(i) == -1
+    )
+    list
   $scope.deleteChannel = (inst) ->
     delete $scope.t.channels[inst]
 
@@ -110,14 +118,33 @@ drum.controller("PlayCtrl", ($scope, $interval, Keyboard) ->
   $scope.changeBeatCount = (diff) ->
     if diff
       $scope.t.beatCount += diff
-    $scope.t.tempo = 1 if $scope.t.tempo < 1
-    $scope.t.tempo = 64 if $scope.t.tempo > 64
+    $scope.t.beatCount = 1 if $scope.t.beatCount < 1
+    $scope.t.beatCount = 64 if $scope.t.beatCount > 64
     no
   Keyboard.register(51, -> $scope.changeBeatCount(-1))
   Keyboard.register(52, -> $scope.changeBeatCount(1))
+
 )
 
-drum.controller("GridCtrl", ($scope) ->
+drum.controller("GridCtrl", ($scope, Keyboard) ->
+  $scope.curCh =
+    num: -1
+    name: ""
+  moveChannel = (diff) ->
+    newNum = $scope.curCh.num + diff
+    newName = $scope.chList()[newNum]
+    return unless (newName)
+    if $scope.seq.semi == -1
+      $scope.seq.semi = 0
+      $scope.seq.beat = 0
+      $scope.seq.ticks = 0
+    $scope.curCh.num = newNum
+    $scope.curCh.name = newName
+    $scope.testPlay(newName) if $scope.t.channels[newName][$scope.seq.semi]
+
+  Keyboard.register(38, -> moveChannel(-1))
+  Keyboard.register(40, -> moveChannel(1))
+
   $scope.noteClasses = (chan, beat, tick) ->
     s = ""
     sq = (beat * 4) + tick
@@ -125,8 +152,10 @@ drum.controller("GridCtrl", ($scope) ->
     s += " active" if sq == $scope.seq.semi
     s
 
-  $scope.toggleNote = (chan, beat, tick) ->
-    sq = (beat * 4) + tick
+  $scope.toggleNote = (chan, sq) ->
     a = $scope.t.channels[chan]
     a[sq] = if a[sq] == 1 then 0 else 1
+  Keyboard.register(73, ->
+    $scope.toggleNote($scope.curCh.name, $scope.seq.semi)
+  )
 )

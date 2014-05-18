@@ -26,3 +26,5 @@ instruments =
   hatClosed: [3442, 140]
   ride: [3602, 739]
   tamb: [4365, 293]
+
+instrumentNames = Object.keys(instruments)
