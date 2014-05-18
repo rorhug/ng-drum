@@ -149,7 +149,9 @@ drum.controller("GridCtrl", ($scope, Keyboard) ->
     $scope.testPlay(newName) if $scope.t.channels[newName][$scope.seq.semi]
 
   Keyboard.register(38, -> moveChannel(-1))
+  Keyboard.register(75, -> moveChannel(-1))
   Keyboard.register(40, -> moveChannel(1))
+  Keyboard.register(74, -> moveChannel(1))
 
   $scope.noteClasses = (chan, beat, tick) ->
     s = ""
