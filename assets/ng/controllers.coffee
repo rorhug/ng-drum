@@ -67,6 +67,9 @@ drum.controller("PlayCtrl", ($scope, $interval) ->
       $scope.t.tempo += amount
     $scope.t.tempo = 1 if $scope.t.tempo < 1
     $scope.t.tempo = 350 if $scope.t.tempo > 350
+    if $scope.heartbeat
+      $scope.off()
+      $scope.on()
     no
 )
 
