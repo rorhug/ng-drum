@@ -2,14 +2,12 @@
 
 tempoMs = (t) -> ((60/t) * 1000)/4
 
-drum.controller("MainCtrl", ($scope, $interval, Sound) ->
+drum.controller("MainCtrl", ($scope, $interval, $location, Sound, Track) ->
   $scope.instruments = instruments
 
   # Track
-  $scope.t =
-    beatCount: 4
-    channels:
-      snare: [1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0]
+  trackRawData = $location.path().split("/")[1]
+  $scope.t = new Track(trackRawData)
 
   $scope.deleteChannel = (inst) ->
     delete $scope.t.channels[inst]
@@ -18,7 +16,6 @@ drum.controller("MainCtrl", ($scope, $interval, Sound) ->
     ticks: -1
     beat: -1
     semi: -1
-  $scope.tempo = 120
   $scope.advance = ->
     ticks = $scope.seq.ticks + 1
     $scope.seq.ticks = ticks
@@ -31,9 +28,17 @@ drum.controller("MainCtrl", ($scope, $interval, Sound) ->
       Sound.play(inst) if notes[s]
     )
 
+  lastDataGenerated = ""
+  $scope.generateRawData = ->
+    rawData = $scope.t.getPath()
+    lastDataGenerated = rawData
+  $scope.permalink = ->
+    $location.path(lastDataGenerated)
+    $location.absUrl()
+
   # Random helpers
   $scope.isEmpty = (obj) ->
-    angular.equals({}, obj)
+    !obj || angular.equals({}, obj)
 )
 
 drum.controller("PlayCtrl", ($scope, $interval) ->
@@ -46,7 +51,7 @@ drum.controller("PlayCtrl", ($scope, $interval) ->
 
   $scope.on = ->
     return if $scope.heartbeat
-    $scope.heartbeat = $interval($scope.advance, (tempoMs($scope.tempo)))
+    $scope.heartbeat = $interval($scope.advance, (tempoMs($scope.t.tempo)))
 
   $scope.off = ->
     return unless $scope.heartbeat
@@ -72,6 +77,3 @@ drum.controller("GridCtrl", ($scope) ->
     a = $scope.t.channels[chan]
     a[sq] = if a[sq] == 1 then 0 else 1
 )
-
-# [noteClasses(inst, b, sq)]
-# {active: seq.semi == ((b * 4) + sq)}

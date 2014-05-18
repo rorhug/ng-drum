@@ -1,3 +1,6 @@
+(window.btoa = (str) -> Base64.encode(str)) if (!window.btoa)
+(window.atob = (str) -> Base64.decode(str)) if (!window.atob)
+
 drum = angular.module('drum', ["mgcrea.ngStrap"])
 
 drum.filter('range', ->
