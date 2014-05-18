@@ -23,6 +23,10 @@
   .instruments-list {
     a {
       cursor: pointer;
+      &.used {
+        cursor: default;
+        color: #c5c5c5;
+      }
     }
   }
   .permalink {

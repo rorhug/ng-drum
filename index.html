@@ -24,7 +24,7 @@
         <script type="text/ng-template" id="instruments-list.html">
           <ul class="dropdown-menu instruments-list" role="menu">
             <li ng-repeat="(name, data) in instruments">
-              <a ng-click="addChannel(name)" ng-bind="name"></a>
+              <a ng-click="addChannel(name)" ng-bind="name" ng-class="{used: t.channels[name]}"></a>
             </li>
           </ul>
         </script>
