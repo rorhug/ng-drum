@@ -4,6 +4,7 @@
     &:active, &:focus {
       outline: none;
     }
+    margin-bottom: 5px;
   }
   .tempo-controls {
     .input-group-btn {
@@ -48,16 +49,16 @@ $dd-back: #b7d9f8;
     }
   }
   .ch-info {
-    height: 40px;
+    height: 30px;
     border: solid $l-out;
     border-width: 1px 0px 0px 1px;
     border-right: solid 1px $m-out;
     background-color: $m-back;
     .ch-title {
       font-weight: 300;
-      font-size: 18px;
+      font-size: 14px;
       height: 100%;
-      line-height: 36px;
+      line-height: 26px;
     }
     .text-danger {
       cursor: pointer;
@@ -74,8 +75,8 @@ $dd-back: #b7d9f8;
   }
   .note {
     float: left;
-    height: 38px;
-    width: 40px;
+    height: 28px;
+    width: 30px;
     display: inline-block;
     cursor: crosshair;
     border-right: solid 1px $l-out;
@@ -95,7 +96,7 @@ $dd-back: #b7d9f8;
       border-right: solid 1px $m-out;
     }
     &.active {
-      border: 5px rgb(70, 134, 255) solid;
+      border: 2px rgb(70, 134, 255) solid;
     }
   }
 }

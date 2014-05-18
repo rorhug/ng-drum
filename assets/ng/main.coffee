@@ -12,7 +12,6 @@ drum.filter('range', ->
 instruments =
   kick: [0, 280]
   snare: [350, 250]
-  # snare: [350, 399]
   cowbell: [653, 87]
   hiTom: [774, 646]
   midTom: [1418, 556]
