@@ -27,7 +27,7 @@ drum.controller("MainCtrl", ($scope, $interval, $location, $alert, Sound, Track,
     angular.forEach($scope.t.channels, (notes, inst) ->
       Sound.play(inst) if notes[$scope.seq.semi]
     )
-  Keyboard.register(83, strike)
+  Keyboard.register(80, strike)
   $scope.seq =
     ticks: -1
     beat: -1
@@ -37,7 +37,8 @@ drum.controller("MainCtrl", ($scope, $interval, $location, $alert, Sound, Track,
     recalculate()
     strike()
   retreat = ->
-    return if $scope.seq.ticks <= 0
+    if $scope.seq.ticks <= 0
+      $scope.seq.ticks = $scope.t.len()
     $scope.seq.ticks -= 1
     recalculate()
     strike()
@@ -45,7 +46,6 @@ drum.controller("MainCtrl", ($scope, $interval, $location, $alert, Sound, Track,
   Keyboard.register(76, $scope.advance) # l
   Keyboard.register(37, retreat) # left arrow
   Keyboard.register(72, retreat) # h
-
   recalculate = ->
     $scope.seq.semi = $scope.seq.ticks % ($scope.t.beatCount * 4)
     $scope.seq.beat = Math.floor($scope.seq.semi / 4)
@@ -77,11 +77,10 @@ drum.controller("PlayCtrl", ($scope, $interval, Keyboard) ->
     $scope.seq.ticks = -1
     $scope.seq.beat = -1
     $scope.seq.semi = -1
-  Keyboard.register(115, $scope.reset)
+  Keyboard.register(83, $scope.reset)
 
   $scope.toggle = -> if $scope.heartbeat then $scope.off() else $scope.on()
   Keyboard.register(32, $scope.toggle)
-  Keyboard.register(80, $scope.toggle)
 
   $scope.on = ->
     return if $scope.heartbeat
