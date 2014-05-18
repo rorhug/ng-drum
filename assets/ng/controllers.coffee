@@ -28,6 +28,10 @@ drum.controller("MainCtrl", ($scope, $interval, $location, Sound, Track) ->
       Sound.play(inst) if notes[s]
     )
 
+  $scope.testPlay = (inst) ->
+    console.log(inst)
+    Sound.play(inst)
+
   lastDataGenerated = ""
   $scope.generateRawData = ->
     $scope.t.cleanup()
