@@ -49,23 +49,23 @@
             Tempo: <span ng-bind="t.tempo"></span>
           </button>
         </span>
-        <input ng-model="t.tempo" type="number" class="form-control" focus-me="editingTempo" ng-show="editingTempo" ng-blur="">
+        <input ng-model="t.tempo" type="number" class="form-control input-sm" focus-me="editingTempo" ng-show="editingTempo" ng-blur="">
         <span class="input-group-btn">
           <button type="button" class="btn btn-default" ng-click="changeTempo(1)">
             <i class="fa fa-plus"></i>
           </button>
         </span>
       </form>
-      <form ng-submit="editingBeatCount = false || changeBeatCount()" class="input-group beat-controls">
+      <form ng-submit="changeBeatCount()" class="input-group beat-controls">
         <span class="input-group-btn">
           <button type="button" class="btn btn-default" ng-click="changeBeatCount(-1)">
             <i class="fa fa-minus"></i>
           </button>
-          <button type="button" class="btn btn-default" ng-hide="editingBeatCount" ng-click="(editingBeatCount = true)">
+          <button type="button" class="btn btn-default" ng-hide="editingBeatCount" ng-click="(beatCountBox = t.beatCount) && (editingBeatCount = true)">
             Beats: <span ng-bind="t.beatCount"></span>
           </button>
         </span>
-        <input ng-model="t.beatCount" type="number" class="form-control" focus-me="editingBeatCount" ng-show="editingBeatCount" ng-blur="">
+        <input ng-model="beatCountBox" type="number" class="form-control input-sm" focus-me="beatCountBox" ng-show="editingBeatCount">
         <span class="input-group-btn">
           <button type="button" class="btn btn-default" ng-click="changeBeatCount(1)">
             <i class="fa fa-plus"></i>
