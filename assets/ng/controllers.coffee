@@ -2,12 +2,8 @@
 
 tempoMs = (t) -> ((60/t) * 1000)/4
 
-drum.controller("MainCtrl", ($scope, $interval) ->
-  $scope.instruments =
-    kick:
-      file: "blah"
-    snare:
-      file: "blah"
+drum.controller("MainCtrl", ($scope, $interval, Sound) ->
+  $scope.instruments = instruments
 
   # Track
   $scope.t =
@@ -26,8 +22,14 @@ drum.controller("MainCtrl", ($scope, $interval) ->
   $scope.advance = ->
     ticks = $scope.seq.ticks + 1
     $scope.seq.ticks = ticks
-    $scope.seq.semi = ticks % ($scope.t.beatCount * 4)
+    s = ticks % ($scope.t.beatCount * 4)
+    $scope.seq.semi = s
     $scope.seq.beat = Math.floor($scope.seq.semi / 4) % 4
+
+    # Play sounds
+    angular.forEach($scope.t.channels, (notes, inst) ->
+      Sound.play(inst) if notes[s]
+    )
 
   # Random helpers
   $scope.isEmpty = (obj) ->
@@ -62,11 +64,14 @@ drum.controller("GridCtrl", ($scope) ->
     s = ""
     sq = (beat * 4) + tick
     s += if $scope.t.channels[chan][sq] then "on" else "off"
+    s += " active" if sq == $scope.seq.semi
     s
 
   $scope.toggleNote = (chan, beat, tick) ->
     sq = (beat * 4) + tick
     a = $scope.t.channels[chan]
     a[sq] = if a[sq] == 1 then 0 else 1
-    console.log($scope.t.channels[chan])
 )
+
+# [noteClasses(inst, b, sq)]
+# {active: seq.semi == ((b * 4) + sq)}
