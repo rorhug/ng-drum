@@ -320,16 +320,21 @@ drum.controller("PlayCtrl", function($scope, $interval, Keyboard) {
     return $scope.changeTempo(1);
   });
   $scope.changeBeatCount = function(diff) {
+    var n;
     if (diff) {
-      $scope.t.beatCount += diff;
+      n = $scope.t.beatCount;
+      n += diff;
+    } else {
+      n = $scope.beatCountBox;
     }
-    if ($scope.t.beatCount < 1) {
-      $scope.t.beatCount = 1;
+    $scope.editingBeatCount = null;
+    if (n < 1) {
+      n = 1;
     }
-    if ($scope.t.beatCount > 64) {
-      $scope.t.beatCount = 64;
+    if (n > 64) {
+      n = 64;
     }
-    return false;
+    return $scope.t.beatCount = n;
   };
   Keyboard.register(51, function() {
     return $scope.changeBeatCount(-1);
