@@ -13,12 +13,15 @@ drum.controller("MainCtrl", ($scope, $interval, $location, $alert, Sound, Track,
     $location.path("")
     $alert(
       title: 'Error'
-      content: 'The track data in the url was invalid!'
+      content: 'The track data in the url was invalid! (using default track instead)'
       placement: 'top-right'
       container: '#alerts'
       type: 'danger'
       duration: 8
     )
+
+  $scope.setSong = (name) ->
+    $scope.t = new Track(null, songs[name])
 
   $scope.chList = ->
     list = []
@@ -127,10 +130,13 @@ drum.controller("PlayCtrl", ($scope, $interval, Keyboard) ->
     n = 1 if n < 1
     n = 64 if n > 64
     $scope.t.beatCount = n
-
-
   Keyboard.register(51, -> $scope.changeBeatCount(-1))
   Keyboard.register(52, -> $scope.changeBeatCount(1))
+
+  $scope.songNames = Object.keys(songs)
+  $scope.useSong = (name) ->
+    $scope.reset()
+    $scope.setSong(name)
 
 )
 
