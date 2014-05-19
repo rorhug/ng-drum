@@ -3,8 +3,8 @@ ng-drum
 
 AngularJS drum machine
 ----------------------
+###[Check it out here!](http://drum.rory.ie/).
 
-An Angular take to [Ember Beats](https://github.com/GavinJoyce/ember-beats).
 
 ### Setup
 
@@ -18,3 +18,5 @@ An Angular take to [Ember Beats](https://github.com/GavinJoyce/ember-beats).
 
 
 Then just open `localhost:3786` in your web browser.
+
+Inspired by [Ember Beats](https://github.com/GavinJoyce/ember-beats).
