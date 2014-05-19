@@ -9,18 +9,19 @@ drum.service("Storage", ->
 )
 
 drum.factory("Track", (Storage) ->
-  Track = (encoded) ->
-    trackObj = Storage.decode(encoded) if encoded
-    if trackObj is null
-      @invalidRawData = true
-    else if trackObj
-      @tempo = trackObj.tempo
-      @beatCount = trackObj.beatCount
-      @channels = trackObj.channels
-    # Default
-    @tempo ?= 120
-    @beatCount ?= 4
-    @channels ?= {"snare":[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],"kick":[1,0,0,0,0,0,0,1,0,1,1,0,0,0,1],"hatClosed":[1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0],"hatOpen":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0]}
+  Track = (encoded, trackData) ->
+    trackObj = null
+    if encoded
+      trackObj = Storage.decode(encoded)
+      unless trackObj
+        @invalidRawData = true
+        trackObj = null
+    else if trackData
+      trackObj = trackData
+    trackObj ?= defaultTrack # Default
+    @tempo = trackObj.tempo || 120
+    @beatCount = trackObj.beatCount || 4
+    @channels = trackObj.channels || {}
     this
 
   Track.prototype.getPath = ->

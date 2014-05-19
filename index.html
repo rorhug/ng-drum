@@ -31,7 +31,7 @@
         </button>
       </div>
       <button type="button" class="btn btn-default dropdown-toggle pull-left" data-toggle="dropdown" bs-dropdown data-template="instruments-list.html">
-        <i class="fa fa-music"></i> Add <span class="caret"></span>
+        <i class="fa fa-plus"></i> Add <span class="caret"></span>
       </button>
       <script type="text/ng-template" id="instruments-list.html">
         <ul class="dropdown-menu instruments-list" role="menu">
@@ -83,7 +83,7 @@
           <i class="fa fa-step-forward"></i>
         </button>
       </div>
-      <button type="button" class="btn btn-info" title="Saves the song as a shareable link."
+      <button type="button" class="btn btn-primary" title="Saves the song as a shareable link."
               bs-popover data-template="permalink.html" ng-click="generateRawData()">
         <i class="fa fa-link"></i> Save link to share
       </button>
@@ -94,6 +94,16 @@
           <textarea class="form-control" ng-bind="permalink()" select-all-on-click></textarea>
         </div>
       </script>
+      <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" bs-dropdown data-template="songs-list.html">
+        <i class="fa fa-music"></i> Examples <span class="caret"></span>
+      </button>
+      <script type="text/ng-template" id="songs-list.html">
+        <ul class="dropdown-menu songs-list" role="menu">
+          <li ng-repeat="name in songNames | orderBy:'toString()'">
+            <a ng-click="useSong(name)" ng-bind="name" class="point"></a>
+          </li>
+        </ul>
+      </script> 
     </div>
 
     <div class="the-grid" ng-controller="GridCtrl">
