@@ -1,4 +1,4 @@
-var drum, instrumentNames, instruments;
+var defaultTrack, drum, instrumentNames, instruments, songs;
 
 if (!window.btoa) {
   window.btoa = function(str) {
@@ -36,19 +36,142 @@ drum.filter('trackJson', function() {
 });
 
 instruments = {
-  kick: [0, 280],
-  snare: [350, 250],
-  cowbell: [653, 87],
-  hiTom: [774, 627],
-  midTom: [1418, 525],
-  lowTom: [1977, 790],
-  hatOpen: [2866, 575],
-  hatClosed: [3442, 140],
-  ride: [3602, 739],
-  tamb: [4365, 293]
+  kick: [0, 420],
+  snare: [453, 434],
+  clap: [11383, 157],
+  cowbell: [908, 115],
+  hiTom: [1360, 602],
+  midTom: [1997, 851],
+  lowTom: [2894, 839],
+  hatOpen: [3756, 955],
+  hatClosed: [4734, 130],
+  ride: [4911, 962],
+  tamb: [5878, 277],
+  crash: [6830, 1267],
+  splash: [8127, 843],
+  china: [9578, 855],
+  hiAgogo: [10591, 433],
+  lowAgogo: [11095, 273]
 };
 
 instrumentNames = Object.keys(instruments);
+
+songs = {
+  "Californication - RHCP": {
+    "tempo": 190,
+    "beatCount": 8,
+    "channels": {
+      "snare": [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1],
+      "kick": [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+      "ride": [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+      "crash": [1],
+      "splash": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
+    }
+  },
+  "Naive - The Kooks": {
+    "tempo": 100,
+    "beatCount": 4,
+    "channels": {
+      "kick": [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
+      "snare": [0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0],
+      "hatOpen": [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      "hatClosed": [1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+      "splash": [1]
+    }
+  },
+  "Rockin' the Suburbs - Ben Folds": {
+    "tempo": 180,
+    "beatCount": 12,
+    "channels": {
+      "kick": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+      "snare": [1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+      "midTom": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+      "lowTom": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+      "hiTom": [0, 0, 0, 0, 0, 0, 1, 0, 1],
+      "ride": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0],
+      "crash": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+    }
+  },
+  "King Of Rock - Run DMC": {
+    "tempo": 200,
+    "beatCount": 8,
+    "channels": {
+      "kick": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
+      "snare": [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      "cowbell": [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+      "ride": [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+      "crash": [1]
+    }
+  },
+  "Mo Money Mo Problems - B.I.G.": {
+    "tempo": 190,
+    "beatCount": 8,
+    "channels": {
+      "hatClosed": [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1],
+      "kick": [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+      "snare": [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+      "hatOpen": [0, 0, 0, 0, 1, 0, 0, 0, 0]
+    }
+  },
+  "Airbag - Radiohead": {
+    "tempo": 170,
+    "beatCount": 8,
+    "channels": {
+      "kick": [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1],
+      "snare": [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      "tamb": [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+      "hatClosed": [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
+      "hatOpen": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+    }
+  },
+  "Paranoid Android (7/8 bit) - Radiohead": {
+    "tempo": 151,
+    "beatCount": 7,
+    "channels": {
+      "snare": [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+      "kick": [1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+      "ride": [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+      "hatOpen": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      "crash": [1]
+    }
+  },
+  "Every Teardrop Is a Waterfall - Coldplay": {
+    "tempo": 120,
+    "beatCount": 8,
+    "channels": {
+      "snare": [0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+      "kick": [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+      "hatClosed": [0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0],
+      "hatOpen": [0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0],
+      "crash": [1, null, null, 0]
+    }
+  },
+  "Samba": {
+    "tempo": 105,
+    "beatCount": 4,
+    "channels": {
+      "snare": [1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1],
+      "kick": [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+      "clap": [0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1],
+      "hiAgogo": [1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1],
+      "lowAgogo": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
+      "crash": [1],
+      "splash": [0, 0, 0, 0, 0, 0, 0, 1],
+      "china": [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+    }
+  }
+};
+
+defaultTrack = {
+  "tempo": 120,
+  "beatCount": 4,
+  "channels": {
+    "snare": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+    "kick": [1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1],
+    "hatClosed": [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0],
+    "hatOpen": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
+  }
+};
 
 drum.service("Storage", function() {
   this.encode = function(track) {
@@ -68,32 +191,24 @@ drum.service("Storage", function() {
 
 drum.factory("Track", function(Storage) {
   var Track;
-  Track = function(encoded) {
+  Track = function(encoded, trackData) {
     var trackObj;
+    trackObj = null;
     if (encoded) {
       trackObj = Storage.decode(encoded);
+      if (!trackObj) {
+        this.invalidRawData = true;
+        trackObj = null;
+      }
+    } else if (trackData) {
+      trackObj = trackData;
     }
-    if (trackObj === null) {
-      this.invalidRawData = true;
-    } else if (trackObj) {
-      this.tempo = trackObj.tempo;
-      this.beatCount = trackObj.beatCount;
-      this.channels = trackObj.channels;
+    if (trackObj == null) {
+      trackObj = defaultTrack;
     }
-    if (this.tempo == null) {
-      this.tempo = 120;
-    }
-    if (this.beatCount == null) {
-      this.beatCount = 4;
-    }
-    if (this.channels == null) {
-      this.channels = {
-        "snare": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-        "kick": [1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1],
-        "hatClosed": [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0],
-        "hatOpen": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
-      };
-    }
+    this.tempo = trackObj.tempo || 120;
+    this.beatCount = trackObj.beatCount || 4;
+    this.channels = trackObj.channels || {};
     return this;
   };
   Track.prototype.getPath = function() {
@@ -180,13 +295,16 @@ drum.controller("MainCtrl", function($scope, $interval, $location, $alert, Sound
     $location.path("");
     $alert({
       title: 'Error',
-      content: 'The track data in the url was invalid!',
+      content: 'The track data in the url was invalid! (using default track instead)',
       placement: 'top-right',
       container: '#alerts',
       type: 'danger',
       duration: 8
     });
   }
+  $scope.setSong = function(name) {
+    return $scope.t = new Track(null, songs[name]);
+  };
   $scope.chList = function() {
     var list, unordered;
     list = [];
@@ -339,9 +457,14 @@ drum.controller("PlayCtrl", function($scope, $interval, Keyboard) {
   Keyboard.register(51, function() {
     return $scope.changeBeatCount(-1);
   });
-  return Keyboard.register(52, function() {
+  Keyboard.register(52, function() {
     return $scope.changeBeatCount(1);
   });
+  $scope.songNames = Object.keys(songs);
+  return $scope.useSong = function(name) {
+    $scope.reset();
+    return $scope.setSong(name);
+  };
 });
 
 drum.controller("GridCtrl", function($scope, Keyboard) {
