@@ -16,15 +16,21 @@ drum.filter('trackJson', ->
 )
 
 instruments =
-  kick: [0, 280]
-  snare: [350, 250]
-  cowbell: [653, 87]
-  hiTom: [774, 627]
-  midTom: [1418, 525]
-  lowTom: [1977, 790]
-  hatOpen: [2866, 575]
-  hatClosed: [3442, 140]
-  ride: [3602, 739]
-  tamb: [4365, 293]
+  kick: [0, 420]
+  snare: [453, 434]
+  clap: [11383, 157]
+  cowbell: [908, 115]
+  hiTom: [1360, 602]
+  midTom: [1997, 851]
+  lowTom: [2894, 839]
+  hatOpen: [3756, 955]
+  hatClosed: [4734, 130]
+  ride: [4911, 962]
+  tamb: [5878, 277]
+  crash: [6830, 1267]
+  splash: [8127, 843]
+  china: [9578, 855]
+  hiAgogo: [10591, 433]
+  lowAgogo: [11095, 273]
 
 instrumentNames = Object.keys(instruments)
