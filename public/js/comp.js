@@ -323,7 +323,8 @@ drum.controller("MainCtrl", function($scope, $interval, $location, $alert, Sound
     });
   }
   $scope.setSong = function(name) {
-    return $scope.t = new Track(null, songs[name]);
+    $scope.t = new Track(null, songs[name]);
+    return ga('send', 'event', 'setSong', name);
   };
   $scope.chList = function() {
     var list, unordered;
