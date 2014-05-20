@@ -22,6 +22,7 @@ drum.controller("MainCtrl", ($scope, $interval, $location, $alert, Sound, Track,
 
   $scope.setSong = (name) ->
     $scope.t = new Track(null, songs[name])
+    ga('send', 'event', 'setSong', name)
 
   $scope.chList = ->
     list = []
