@@ -265,19 +265,21 @@ drum.factory("Track", function(Storage) {
 });
 
 drum.service("Sound", function() {
-  var h, that;
-  h = new Howl({
+  var that;
+  this.h = new Howl({
     urls: ['public/kit.mp3', 'public/kit.ogg'],
-    sprite: instruments
+    sprite: instruments,
+    volume: 1
   });
   that = this;
   this.lastOpenHat = null;
   this.play = function(name) {
-    return h.play(name, function(id) {
+    return this.h.play(name, function(id) {
+      that.h.volume(1, id);
       if (name === "hatOpen") {
         return that.lastOpenHat = id;
       } else if (name === "hatClosed" && that.lastOpenHat) {
-        h.stop(that.lastOpenHat);
+        that.h.stop(that.lastOpenHat);
         return that.lastOpenHat = null;
       }
     });

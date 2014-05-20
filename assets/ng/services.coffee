@@ -48,18 +48,20 @@ drum.factory("Track", (Storage) ->
 )
 
 drum.service("Sound", ->
-  h = new Howl(
+  @h = new Howl(
     urls: ['public/kit.mp3', 'public/kit.ogg']
     sprite: instruments
+    volume: 1
   )
   that = this
   @lastOpenHat = null
   @play = (name) ->
-    h.play(name, (id) ->
+    @h.play(name, (id) ->
+      that.h.volume(1, id)
       if name == "hatOpen" # HiHat stop
         that.lastOpenHat = id
       else if name == "hatClosed" && that.lastOpenHat
-        h.stop(that.lastOpenHat)
+        that.h.stop(that.lastOpenHat)
         that.lastOpenHat = null
     )
   this
