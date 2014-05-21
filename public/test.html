@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>lol</title>
+  <script src="//oss.maxcdn.com/howler.js/1.1.20/howler.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+  
+// var instruments;
+
+// instruments = {
+//   kick: [0, 420],
+//   snare: [453, 434],
+//   clap: [11383, 157],
+//   cowbell: [908, 115],
+//   hiTom: [1360, 602],
+//   midTom: [1997, 851],
+//   lowTom: [2894, 839],
+//   hatOpen: [3756, 955],
+//   hatClosed: [4734, 130],
+//   ride: [4911, 962],
+//   tamb: [5878, 277],
+//   crash: [6830, 1267],
+//   splash: [8127, 843],
+//   china: [9578, 855],
+//   hiAgogo: [10591, 433],
+//   lowAgogo: [11095, 273]
+// };
+
+// var h;
+
+// h = new Howl({
+//   urls: ['kit.mp3', 'kit.ogg'],
+//   sprite: instruments,
+//   onloaderror: function() {
+//     alert("error")
+//   },
+//   onend: function() {
+//     console.log('Finished!');
+//     alert('Done!');
+//   }
+// });
+
+// var sound = new Howl({
+//   urls: ['kit.mp3'],
+//   volume: 1,
+//   onend: function() {
+//     console.log('Finished!');
+//     alert('Done!');
+//   }
+// }).play();
+
+// Howler.unmute()
+
+o = {
+  howl: new Howl({
+    urls: ['kit.mp3','kit.ogg'],
+    sprite: {
+      kick: [0, 420],
+      snare: [453, 434],
+      clap: [11383, 157],
+      cowbell: [908, 115],
+      hiTom: [1360, 602],
+      midTom: [1997, 851],
+      lowTom: [2894, 839],
+      hatOpen: [3756, 955],
+      hatClosed: [4734, 130],
+      ride: [4911, 962],
+      tamb: [5878, 277],
+      crash: [6830, 1267],
+      splash: [8127, 843],
+      china: [9578, 855],
+      hiAgogo: [10591, 433],
+      lowAgogo: [11095, 273]
+    }
+  }),
+  play: function(sound, volume) {
+    var self = this;
+    self.howl.play(sound, function(soundID) {
+      self.howl.volume(volume, soundID);
+    });
+  }
+}
+
+</script>
+yo
+</body>
+</html>
