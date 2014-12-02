@@ -37,7 +37,7 @@ drum.controller("MainCtrl", ($scope, $interval, $location, $alert, Sound, Track,
   strike = ->
     # Play sounds
     angular.forEach($scope.t.channels, (notes, inst) ->
-      Sound.play(inst) if notes[$scope.seq.semi]
+      Sound.play(inst, notes[$scope.seq.semi]) if notes[$scope.seq.semi]
     )
   Keyboard.register(80, strike)
   $scope.seq =
@@ -169,7 +169,10 @@ drum.controller("GridCtrl", ($scope, Keyboard) ->
   $scope.noteClasses = (chan, beat, tick) ->
     s = ""
     sq = (beat * 4) + tick
-    s += if $scope.t.channels[chan][sq] then "on" else "off"
+
+    vol = $scope.t.channels[chan][sq]
+    s += if vol then "v#{vol}" else "off"
+
     s += " active" if sq == $scope.seq.semi
     s
 
@@ -179,4 +182,9 @@ drum.controller("GridCtrl", ($scope, Keyboard) ->
   Keyboard.register(73, ->
     $scope.toggleNote($scope.curCh.name, $scope.seq.semi)
   )
+  $scope.toggleVol = (chan, sq) ->
+    a = $scope.t.channels[chan]
+    newVol = a[sq] + 1
+    newVol = 1 if newVol > 3
+    a[sq] = newVol
 )

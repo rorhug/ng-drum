@@ -130,6 +130,7 @@
                   ng-repeat="sq in [] | range:4"
                   ng-class="[noteClasses(inst, b, sq)]"
                   ng-click="toggleNote(inst, (b * 4) + sq)">
+              <i class="v" ng-click="toggleVolume(inst, (b * 4) + sq)"></i>
             </span>
           </div>
         </div>
@@ -158,7 +159,9 @@
       </p>
       <h4>Something isn't working...</h4>
       <p>
-        It's possible your browser is too old. If you know you're using a modern browser, try emailing me: rory@rory.ie
+        It's possible your browser is too old.
+        If you know you're using a modern browser, try emailing me: rory@rory.ie or open an
+        <a href="https://github.com/rorydh/ng-drum/issues">issue on github.</a>
       </p>
       <div class="row">
         <div class="col-sm-6">

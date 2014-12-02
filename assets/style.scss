@@ -54,7 +54,6 @@ $m-out: #3c6ad9;
 $l-back: #eef8fb;
 $m-back: #DDEEFB;
 $d-back: #c5e0fb;
-$dd-back: #85cbf8;
 
 .the-grid {
   margin: 10px 0;
@@ -113,25 +112,43 @@ $dd-back: #85cbf8;
     height: 29px;
     width: 30px;
     display: inline-block;
+    position: relative;
     cursor: crosshair;
     border-right: solid 1px $l-out;
     &.off {
       background-color: $l-back;
-      &:hover {
-        background-color: $m-back;
-      }
+      // &:hover {
+      //   background-color: $m-back;
+      // }
     }
-    &.on {
-      background-color: $dd-back;
-      &:hover {
-        background-color: $d-back;
-      }
+    &.v1, &.v2, &.v3 {
+      // &:hover {
+      //   background-color: $d-back;
+      // }
     }
+    &.v1 { background-color: #377ee1; }
+    // &.v2 { background-color: #85cbf8; }
+    &.v2 { background-color: #3e8fff; }
+    &.v3 { background-color: #7ABEFF; }
     &:nth-child(4n+4) {
       border-right: solid 1px $m-out;
     }
     &.active {
       border: 2px rgb(70, 134, 255) solid;
+    }
+    .v {
+      height: 10px;
+      display: none;
+      background-color: #484848;
+      opacity: 0.7;
+      &:hover {
+        background-color: #000000;
+      }
+    }
+    &:hover {
+      .v {
+        display: block;
+      }
     }
   }
 }

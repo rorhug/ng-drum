@@ -55,9 +55,9 @@ drum.service("Sound", ->
   )
   that = this
   @lastOpenHat = null
-  @play = (name) ->
+  @play = (name, vol) ->
     @h.play(name, (id) ->
-      that.h.volume(1, id)
+      that.h.volume(vols[vol], id)
       if name == "hatOpen" # HiHat stop
         that.lastOpenHat = id
       else if name == "hatClosed" && that.lastOpenHat
