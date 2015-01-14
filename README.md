@@ -1,6 +1,8 @@
 ng-drum
 =======
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/RoryDH/ng-drum?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 AngularJS drum machine
 ----------------------
 ###[Check it out here!](http://rory.ie/drum)
