@@ -3,7 +3,7 @@ ng-drum
 
 AngularJS drum machine
 ----------------------
-###[Check it out here!](http://rory.ie/drum)
+###[Check it out here!](http://drum.rory.ie/)
 
 
 ### Setup
